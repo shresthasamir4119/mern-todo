@@ -9,6 +9,15 @@ const Todo = (props) => (
       <a
         href="#"
         onClick={() => {
+          props.changeCompleted(props.todo._id);
+        }}
+      >
+        Change Completed
+      </a>{" "}
+      |
+      <a
+        href="#"
+        onClick={() => {
           props.deleteTodo(props.todo._id);
         }}
       >
@@ -24,6 +33,7 @@ export default class TodoList extends Component {
 
     this.deleteTodo = this.deleteTodo.bind(this);
     this.getTodo = this.getTodo.bind(this);
+    this.changeCompleted = this.changeCompleted.bind(this);
 
     this.state = { todos: [] };
   }
@@ -52,6 +62,27 @@ export default class TodoList extends Component {
       });
   }
 
+  changeCompleted(id) {
+    const token = localStorage.getItem("auth-token");
+
+    axios
+      .post("http://localhost:50000/todos/" + id, null, {
+        headers: { "x-auth-token": token },
+      })
+      .then((response) => {
+        alert(response.data.msg);
+      });
+
+    this.setState({
+      todos: this.state.todos.map((el) => {
+        if (el._id === id) {
+          el.isCompleted = !el.isCompleted;
+        }
+        return el;
+      }),
+    });
+  }
+
   deleteTodo(id) {
     const token = localStorage.getItem("auth-token");
 
@@ -63,9 +94,9 @@ export default class TodoList extends Component {
         alert(response.data.msg);
       });
 
-      this.setState({
-        todos: this.state.todos.filter((el) => el._id !== id),
-      });
+    this.setState({
+      todos: this.state.todos.filter((el) => el._id !== id),
+    });
   }
 
   todoList() {
@@ -75,6 +106,7 @@ export default class TodoList extends Component {
           todo={currentTodo}
           deleteTodo={this.deleteTodo}
           key={currentTodo._id}
+          changeCompleted={this.changeCompleted}
         />
       );
     });

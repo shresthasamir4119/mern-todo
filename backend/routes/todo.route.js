@@ -33,6 +33,21 @@ router.post("/", auth, async (req, res) => {
   }
 });
 
+//Edit Completion
+
+router.post("/:id", auth, async (req, res) => {
+  try {
+    const existingTodo = await Todo.findById(req.params.id);
+    existingTodo.isCompleted = !existingTodo.isCompleted;
+
+    const savedTodo = await existingTodo.save();
+
+    return res.json({savedTodo, msg: "Changed Status"});
+  } catch (err) {
+    return res.status(500).json({ error: `${err}` });
+  }
+});
+
 //DELETE
 
 router.delete("/:id", auth, async (req, res) => {
