@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
 
+import "./todo.css";
+
 const Todo = (props) => (
   <tr>
     <td>{props.todo.todo}</td>
@@ -37,8 +39,10 @@ export default class TodoList extends Component {
     this.showAll = this.showAll.bind(this);
     this.showInComplete = this.showInComplete.bind(this);
     this.showCompleted = this.showCompleted.bind(this);
+    this.changeTodoText = this.changeTodoText.bind(this);
+    this.addTodo = this.addTodo.bind(this);
 
-    this.state = { todos: [], title: "All Todos" };
+    this.state = { todos: [], title: "All Todos", todoText: "" };
   }
 
   componentDidMount() {
@@ -86,6 +90,33 @@ export default class TodoList extends Component {
       .catch((error) => {
         console.log(error);
       });
+  }
+
+  changeTodoText(e) {
+    this.setState({
+      todoText: e.target.value,
+    });
+  }
+
+  async addTodo() {
+    const token = localStorage.getItem("auth-token");
+    const payload = {
+      todo: this.state.todoText,
+    };
+
+    await axios
+      .post("http://localhost:50000/todos/", payload, {
+        headers: { "x-auth-token": token },
+      })
+      .then((res) => alert(res.data.msg));
+
+    this.setState({
+      todoText: "",
+    });
+
+    if (this.state.title === "All Todos") this.showAll();
+    if (this.state.title === "Completed") this.showCompleted();
+    if (this.state.title === "Incomplete") this.showInComplete();
   }
 
   changeCompleted(id) {
@@ -143,10 +174,14 @@ export default class TodoList extends Component {
       <div className="todo">
         <h3>{this.state.title}</h3>
         <div>
-          <form>
-            <input placeholder="Add todo" value={} onChange={}></input>
-            <input type="submit" onClick={this.addTodo}></input>
-          </form>
+          <input
+            placeholder="Add todo"
+            value={this.state.todoText}
+            onChange={this.changeTodoText}
+          ></input>
+          <button type="button" onClick={this.addTodo}>
+            ADD
+          </button>
         </div>
         <button onClick={this.showAll}>All</button>
         <button onClick={this.showCompleted}>completed</button>

@@ -27,7 +27,7 @@ router.post("/", auth, async (req, res) => {
 
     const savedTodo = await newTodo.save();
 
-    return res.json(savedTodo);
+    return res.json({ savedTodo, msg: "Todo added." });
   } catch (err) {
     return res.status(500).json({ error: `${err}` });
   }
@@ -42,7 +42,7 @@ router.post("/:id", auth, async (req, res) => {
 
     const savedTodo = await existingTodo.save();
 
-    return res.json({savedTodo, msg: "Changed Status"});
+    return res.json({ savedTodo, msg: "Changed Status" });
   } catch (err) {
     return res.status(500).json({ error: `${err}` });
   }
