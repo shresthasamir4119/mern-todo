@@ -1,0 +1,9 @@
+#authOptions button {
+  color: white;
+  margin: 8px;
+  padding: 4px;
+}
+
+button:hover{
+  background-color: black;
+}

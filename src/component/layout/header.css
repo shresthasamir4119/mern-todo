@@ -1,0 +1,18 @@
+#header {
+  background-color: gray;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px;
+}
+
+#header h1 {
+  margin: 0;
+  color: white;
+}
+
+@media only screen and (max-width: 500px) {
+  h1 {
+    font-size: 20px;
+  }
+}

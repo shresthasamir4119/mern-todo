@@ -1,0 +1,12 @@
+.form label,
+.form input {
+  display: block;
+  margin: 4px 0;
+  width: 100%;
+}
+
+.form input[type="submit"] {
+  padding: 4px;
+  background-color: black;
+  color: white;
+}
