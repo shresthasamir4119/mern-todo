@@ -34,15 +34,41 @@ export default class TodoList extends Component {
     this.deleteTodo = this.deleteTodo.bind(this);
     this.getTodo = this.getTodo.bind(this);
     this.changeCompleted = this.changeCompleted.bind(this);
+    this.showAll = this.showAll.bind(this);
+    this.showInComplete = this.showInComplete.bind(this);
+    this.showCompleted = this.showCompleted.bind(this);
 
-    this.state = { todos: [] };
+    this.state = { todos: [], title: "All Todos" };
   }
 
   componentDidMount() {
     this.getTodo();
+    this.setState({
+      title: "All Todos",
+    });
   }
 
-  getTodo() {
+  async showAll() {
+    await this.getTodo();
+  }
+
+  async showCompleted() {
+    await this.getTodo();
+    this.setState({
+      todos: this.state.todos.filter((todo) => todo.isCompleted === true),
+      title: "Completed",
+    });
+  }
+
+  async showInComplete() {
+    await this.getTodo();
+    this.setState({
+      todos: this.state.todos.filter((todo) => todo.isCompleted === false),
+      title: "Incomplete",
+    });
+  }
+
+  async getTodo() {
     let token = localStorage.getItem("auth-token");
 
     if (token === null) {
@@ -50,7 +76,7 @@ export default class TodoList extends Component {
       token = "";
     }
 
-    axios
+    await axios
       .get("http://localhost:50000/todos/", {
         headers: { "x-auth-token": token },
       })
@@ -114,8 +140,17 @@ export default class TodoList extends Component {
 
   render() {
     return (
-      <div>
-        <h3>All Todo</h3>
+      <div className="todo">
+        <h3>{this.state.title}</h3>
+        <div>
+          <form>
+            <input placeholder="Add todo" value={} onChange={}></input>
+            <input type="submit" onClick={this.addTodo}></input>
+          </form>
+        </div>
+        <button onClick={this.showAll}>All</button>
+        <button onClick={this.showCompleted}>completed</button>
+        <button onClick={this.showInComplete}>incomplete</button>
         <table className="table">
           <thead className="thead">
             <tr>
