@@ -34,8 +34,6 @@ function App() {
         }
       );
 
-      console.log(isTokenValid);
-
       if (isTokenValid.data) {
         const userInfo = await axios.get("http://localhost:50000/users/", {
           headers: { "x-auth-token": token },

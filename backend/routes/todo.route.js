@@ -42,7 +42,7 @@ router.delete("/:id", auth, async (req, res) => {
     if (!deleteTodo) throw "Todo don't exist.";
 
     if (deleteTodo.userId === req.user) {
-      await Todo.findByIdAndDelete(req.body.id);
+      await Todo.findByIdAndDelete(req.params.id);
       res.json({ msg: "Todo deleted." });
     } else throw " Not authorized.";
   } catch (err) {
@@ -52,12 +52,8 @@ router.delete("/:id", auth, async (req, res) => {
 
 //GET
 router.get("/", auth, async (req, res) => {
-  const todo = await Todo.findOne({ userId: req.user });
-  res.json({
-    todo: todo.todo,
-    id: todo._id,
-    isCompleted: todo.isCompleted,
-  });
+  const todos = await Todo.find({ userId: req.user });
+  res.json({ todos });
 });
 
 module.exports = router;
