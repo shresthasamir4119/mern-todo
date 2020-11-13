@@ -96,7 +96,7 @@ export default class TodoList extends Component {
     }
 
     await axios
-      .get("http://localhost:50000/todos/", {
+      .get("/todos/", {
         headers: { "x-auth-token": token },
       })
       .then((response) => {
@@ -121,7 +121,7 @@ export default class TodoList extends Component {
       };
 
       await axios
-        .post("http://localhost:50000/todos/", payload, {
+        .post("/todos/", payload, {
           headers: { "x-auth-token": token },
         })
         .then((res) => alert(res.data.msg));
@@ -146,7 +146,7 @@ export default class TodoList extends Component {
     const token = localStorage.getItem("auth-token");
 
     await axios
-      .post("http://localhost:50000/todos/" + id, null, {
+      .post("/todos/" + id, null, {
         headers: { "x-auth-token": token },
       })
       .then((response) => {
@@ -169,7 +169,7 @@ export default class TodoList extends Component {
     const token = localStorage.getItem("auth-token");
 
     axios
-      .delete("http://localhost:50000/todos/" + id, {
+      .delete("/todos/" + id, {
         headers: { "x-auth-token": token },
       })
       .then((response) => {

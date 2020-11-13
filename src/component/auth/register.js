@@ -31,12 +31,12 @@ function Register() {
       };
 
       await axios.post(
-        "http://localhost:50000/users/register",
+        "/users/register",
         newUser
       );
 
       const loginResponse = await axios.post(
-        "http://localhost:50000/users/login",
+        "/users/login",
         { email, password }
       );
 

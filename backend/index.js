@@ -1,7 +1,7 @@
 const cors = require("cors");
 const express = require("express");
 const mongoose = require("mongoose");
-const { useCallback } = require("react");
+const path = require('path');
 
 require("dotenv").config();
 
@@ -11,7 +11,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-const PORT = process.env.PORT || 50000;
+const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
   console.log(`Server started successfully on ${PORT}.`);
@@ -19,6 +19,7 @@ app.listen(PORT, () => {
 
 //Mongoose setup
 const uri = process.env.ATLAS_URI;
+
 mongoose.connect(
   uri,
   { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true },
@@ -32,6 +33,11 @@ const connection = mongoose.connection;
 connection.once("open", () => {
   console.log("MongoDB is connected");
 });
+
+app.use(express.static(path.join(__dirname, '../build')))
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../build/index.html'))
+})
 
 //Routes
 app.use("/users", require("./routes/user.route"));

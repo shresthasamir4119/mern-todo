@@ -27,7 +27,7 @@ function App() {
       }
 
       const isTokenValid = await axios.post(
-        "http://localhost:50000/users/tokenIsValid",
+        "/users/tokenIsValid",
         null,
         {
           headers: { "x-auth-token": token },
@@ -35,7 +35,7 @@ function App() {
       );
 
       if (isTokenValid.data) {
-        const userInfo = await axios.get("http://localhost:50000/users/", {
+        const userInfo = await axios.get("/users/", {
           headers: { "x-auth-token": token },
         });
         setUserData({
