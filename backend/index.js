@@ -1,7 +1,7 @@
 const cors = require("cors");
 const express = require("express");
 const mongoose = require("mongoose");
-const path = require('path');
+const path = require("path");
 
 require("dotenv").config();
 
@@ -34,10 +34,12 @@ connection.once("open", () => {
   console.log("MongoDB is connected");
 });
 
-app.use(express.static(path.join(__dirname, '../build')))
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../build/index.html'))
-})
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../build")));
+  app.get("https://radiant-lake-08953.herokuapp.com/", (req, res) => {
+    res.sendFile(path.join(__dirname, "../build/index.html"));
+  });
+}
 
 //Routes
 app.use("/users", require("./routes/user.route"));
