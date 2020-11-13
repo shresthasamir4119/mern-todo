@@ -23,7 +23,10 @@ function AuthOptions() {
   return (
     <div id="authOptions">
       {userData.user ? (
-        <button onClick={logout}>Logout</button>
+        <>
+          <span className="username">{userData.user.displayName}</span>
+          <button onClick={logout}>Logout</button>
+        </>
       ) : (
         <>
           <button onClick={register}>Register</button>

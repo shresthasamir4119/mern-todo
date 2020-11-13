@@ -3,13 +3,14 @@ import { useHistory } from "react-router-dom";
 
 import "./auth.css";
 
-import userContext from "../../context/user.context";
-
 import axios from "axios";
+import ErrorNotice from "../misc/errorNotice";
+import userContext from "../../context/user.context";
 
 function Login() {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+  const [error, setError] = useState();
 
   const { setUserData } = useContext(userContext);
 
@@ -18,6 +19,7 @@ function Login() {
   const { userData } = useContext(userContext);
 
   useEffect(() => {
+    //If user already logged in
     if (userData.user) history.push("/");
   });
 
@@ -38,13 +40,22 @@ function Login() {
 
       history.push("/");
     } catch (err) {
-      err.response.data.msg && alert(err.response.data.msg);
+      err.response.data.msg && setError(err.response.data.msg);
     }
   };
 
   return (
     <div className="page">
       <h2>Login</h2>
+
+      {error && (
+        <ErrorNotice
+          message={error}
+          clearError={() => {
+            setError(undefined);
+          }}
+        />
+      )}
 
       <form className="form">
         <label htmlFor="register-email"> Email</label>

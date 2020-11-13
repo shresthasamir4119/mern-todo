@@ -4,6 +4,13 @@
   padding: 4px;
 }
 
-#authOptions button:hover{
+#authOptions button:hover {
   background-color: black;
+}
+
+#authOptions .username {
+  margin: 0 8px;
+  color: white;
+  font-weight: bold;
+  text-transform: uppercase;
 }

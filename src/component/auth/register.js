@@ -48,7 +48,7 @@ function Register() {
 
       history.push("/");
     } catch (err) {    
-      err.response.data.msg && alert(err.response.data.msg);
+      err.response.data.msg && setError(err.response.data.msg);
     }
   };
 

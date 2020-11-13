@@ -1,0 +1,23 @@
+.error-notice {
+  width: 100%;
+  border: black 1px solid;
+  border-radius: 4px;
+  background-color: rgb(243, 139, 139);
+  margin: 0 0 8px;
+  display: flex;
+  align-content: space-between;
+  padding: 4px;
+}
+
+.error-notice .span {
+  color: black;
+  flex: 1;
+} 
+
+.error-notice .button {
+  color: red;
+  background-color: white;
+  border-radius: 50%;
+  width: 20px;
+  margin: 0;
+}

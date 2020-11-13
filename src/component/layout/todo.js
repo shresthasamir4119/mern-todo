@@ -1,7 +1,9 @@
 import React, { Component } from "react";
-import axios from "axios";
 
 import "./todo.css";
+
+import axios from "axios";
+import ErrorNotice from "../misc/errorNotice";
 
 const Todo = (props) => (
   <tr>
@@ -42,14 +44,26 @@ export default class TodoList extends Component {
     this.changeTodoText = this.changeTodoText.bind(this);
     this.addTodo = this.addTodo.bind(this);
     this.refreshTodo = this.refreshTodo.bind(this);
+    this.setError = this.setError.bind(this);
 
-    this.state = { todos: [], title: "All Todos", todoText: "" };
+    this.state = {
+      todos: [],
+      title: "All Todos",
+      todoText: "",
+      error: undefined,
+    };
   }
 
   componentDidMount() {
     this.getTodo();
     this.setState({
       title: "All Todos",
+    });
+  }
+
+  setError(error) {
+    this.setState({
+      error,
     });
   }
 
@@ -118,7 +132,7 @@ export default class TodoList extends Component {
 
       this.refreshTodo();
     } catch (err) {
-      err.response.data.msg && alert(err.response.data.msg);
+      err.response.data.msg && this.setError(err.response.data.msg);
     }
   }
 
@@ -184,6 +198,14 @@ export default class TodoList extends Component {
     return (
       <div className="todo">
         <h3>{this.state.title}</h3>
+        {this.state.error && (
+          <ErrorNotice
+            message={this.state.error}
+            clearError={() => {
+              this.setError(undefined);
+            }}
+          />
+        )}
         <div>
           <input
             placeholder="Add todo"
