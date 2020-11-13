@@ -69,6 +69,9 @@ export default class TodoList extends Component {
 
   async showAll() {
     await this.getTodo();
+    this.setState({
+      title: "All Todos",
+    });
   }
 
   async showCompleted() {
@@ -109,8 +112,8 @@ export default class TodoList extends Component {
 
   /**
    * Change todo text
-   * 
-   * @param {Object} e 
+   *
+   * @param {Object} e
    */
   changeTodoText(e) {
     this.setState({
@@ -190,7 +193,6 @@ export default class TodoList extends Component {
   }
 
   todoList() {
-    console.log(this.state.todos);
     return this.state.todos.map((currentTodo) => {
       return (
         <Todo

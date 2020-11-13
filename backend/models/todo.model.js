@@ -4,7 +4,7 @@ const todoSchema = new mongoose.Schema({
   todo: {
     type: String,
     required: true,
-    unique: true,
+    unique: false,
   },
   isCompleted: {
     type: Boolean,
