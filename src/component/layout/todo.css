@@ -4,6 +4,29 @@
 }
 .todo button {
   color: black;
+  border-radius: 5px;
   margin: 8px;
   padding: 4px;
+  background-color: rgb(218, 213, 210);
+}
+
+.todo th {
+  background-color: grey;
+  color: white;
+}
+
+.todo table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.todo td,
+.todo th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
 }

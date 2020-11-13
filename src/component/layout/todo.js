@@ -16,14 +16,14 @@ const Todo = (props) => (
       >
         Change Completed
       </a>{" "}
-      |
+      |{" "}
       <a
         href="#"
         onClick={() => {
           props.deleteTodo(props.todo._id);
         }}
       >
-        delete
+        Delete
       </a>
     </td>
   </tr>
@@ -41,6 +41,7 @@ export default class TodoList extends Component {
     this.showCompleted = this.showCompleted.bind(this);
     this.changeTodoText = this.changeTodoText.bind(this);
     this.addTodo = this.addTodo.bind(this);
+    this.refreshTodo = this.refreshTodo.bind(this);
 
     this.state = { todos: [], title: "All Todos", todoText: "" };
   }
@@ -114,15 +115,19 @@ export default class TodoList extends Component {
       todoText: "",
     });
 
+    this.refreshTodo();
+  }
+
+  refreshTodo() {
     if (this.state.title === "All Todos") this.showAll();
     if (this.state.title === "Completed") this.showCompleted();
     if (this.state.title === "Incomplete") this.showInComplete();
   }
 
-  changeCompleted(id) {
+  async changeCompleted(id) {
     const token = localStorage.getItem("auth-token");
 
-    axios
+   await axios
       .post("http://localhost:50000/todos/" + id, null, {
         headers: { "x-auth-token": token },
       })
@@ -138,6 +143,8 @@ export default class TodoList extends Component {
         return el;
       }),
     });
+
+    this.refreshTodo();
   }
 
   deleteTodo(id) {

@@ -8,8 +8,12 @@
 }
 
 a {
-  color: #61dafb;
+  color: #02627c;
   text-decoration: none;
+}
+
+a:hover {
+  color: darkblue;
 }
 
 ul {
