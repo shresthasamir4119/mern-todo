@@ -100,19 +100,27 @@ export default class TodoList extends Component {
         headers: { "x-auth-token": token },
       })
       .then((response) => {
-        this.setState({ todos: response.data.todos });
+        if (response.data.todos) this.setState({ todos: response.data.todos });
       })
       .catch((error) => {
         console.log(error);
       });
   }
 
+  /**
+   * Change todo text
+   * 
+   * @param {Object} e 
+   */
   changeTodoText(e) {
     this.setState({
       todoText: e.target.value,
     });
   }
 
+  /**
+   * Add to do.
+   */
   async addTodo() {
     try {
       const token = localStorage.getItem("auth-token");
@@ -182,6 +190,7 @@ export default class TodoList extends Component {
   }
 
   todoList() {
+    console.log(this.state.todos);
     return this.state.todos.map((currentTodo) => {
       return (
         <Todo
