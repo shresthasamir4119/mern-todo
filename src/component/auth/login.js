@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
 import "./auth.css";
@@ -14,6 +14,12 @@ function Login() {
   const { setUserData } = useContext(userContext);
 
   const history = useHistory();
+
+  const { userData } = useContext(userContext);
+
+  useEffect(() => {
+    if (userData.user) history.push("/");
+  });
 
   const submit = async (e) => {
     e.preventDefault();
@@ -31,8 +37,8 @@ function Login() {
       localStorage.setItem("auth-token", loginResponse.data.token);
 
       history.push("/");
-    } catch (e) {
-      alert(e);
+    } catch (err) {
+      err.response.data.msg && alert(err.response.data.msg);
     }
   };
 
@@ -54,7 +60,7 @@ function Login() {
           onChange={(e) => setPassword(e.target.value)}
         ></input>
 
-        <input type="submit" value="Register" onClick={submit}></input>
+        <input type="submit" value="Login" onClick={submit}></input>
       </form>
     </div>
   );

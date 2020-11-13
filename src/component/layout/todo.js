@@ -100,22 +100,26 @@ export default class TodoList extends Component {
   }
 
   async addTodo() {
-    const token = localStorage.getItem("auth-token");
-    const payload = {
-      todo: this.state.todoText,
-    };
+    try {
+      const token = localStorage.getItem("auth-token");
+      const payload = {
+        todo: this.state.todoText,
+      };
 
-    await axios
-      .post("http://localhost:50000/todos/", payload, {
-        headers: { "x-auth-token": token },
-      })
-      .then((res) => alert(res.data.msg));
+      await axios
+        .post("http://localhost:50000/todos/", payload, {
+          headers: { "x-auth-token": token },
+        })
+        .then((res) => alert(res.data.msg));
 
-    this.setState({
-      todoText: "",
-    });
+      this.setState({
+        todoText: "",
+      });
 
-    this.refreshTodo();
+      this.refreshTodo();
+    } catch (err) {
+      err.response.data.msg && alert(err.response.data.msg);
+    }
   }
 
   refreshTodo() {
@@ -127,7 +131,7 @@ export default class TodoList extends Component {
   async changeCompleted(id) {
     const token = localStorage.getItem("auth-token");
 
-   await axios
+    await axios
       .post("http://localhost:50000/todos/" + id, null, {
         headers: { "x-auth-token": token },
       })

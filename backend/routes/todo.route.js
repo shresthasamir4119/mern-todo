@@ -10,13 +10,13 @@ router.post("/", auth, async (req, res) => {
 
     //Validation
     if (!todo) {
-      return res.status(400).json({ msg: "No todo" });
+      res.status(400).json({ msg: "No todo" });
     }
 
     const existingTodo = await Todo.findOne({ todo: todo });
 
     if (existingTodo) {
-      return res.status(400).json({ msg: "Todo already exists." });
+      res.status(400).json({ msg: "Todo already exists." });
     }
 
     const newTodo = new Todo({
